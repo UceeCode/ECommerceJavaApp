@@ -2,20 +2,12 @@ package com.example.ecommercejava.model;
 
 import java.io.Serializable;
 
-public class signup implements Serializable {
+public class Signup implements Serializable {
     private static final long serialVersionUID = 1L;
-    private String username;
     private String email;
     private String password;
 
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getEmail() {
         return email;

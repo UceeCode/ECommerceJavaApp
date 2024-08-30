@@ -57,10 +57,6 @@
                     <h2 class="card-title text-center">Sign Up</h2>
                     <form action="SignupServlet" method="post">
                         <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" class="form-control" id="username" name="signup-username" required>
-                        </div>
-                        <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="signup-email" required>
                         </div>
