@@ -56,6 +56,17 @@
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="login-password" required>
                         </div>
+
+                        <!-- Error message display -->
+                        <%
+                            String loginError = (String) request.getAttribute("loginError");
+                            if (loginError != null) {
+                        %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= loginError %>
+                        </div>
+                        <% } %>
+
                         <button type="submit" class="btn btn-primary btn-block">Login</button>
                     </form>
                 </div>
@@ -63,7 +74,6 @@
         </div>
     </div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>

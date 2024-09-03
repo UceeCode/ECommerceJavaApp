@@ -30,7 +30,7 @@ public class Productdao {
                 product.setOrderDate(resultSet.getString("order_date"));
                 products.add(product);
             }
-            System.out.println("Products retrieved: " + products.size()); // Debugging line
+            System.out.println("Products retrieved: " + products.size());
 
         } catch (Exception e) {
             e.printStackTrace();
