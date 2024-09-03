@@ -1,10 +1,17 @@
+<%@ page import="com.example.ecommercejava.model.Product" %>
+<%@ page import="java.util.List" %>
 <%@ page import="com.example.ecommercejava.model.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
+    // Check user authentication
     User auth = (User) request.getSession().getAttribute("auth");
-    if(auth != null) {
+    if (auth != null) {
         response.sendRedirect("index.jsp");
+        return; // Ensure the rest of the page is not processed if redirected
     }
+
+    // Fetch the list of products from request
+    List<Product> products = (List<Product>) request.getAttribute("products");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,23 +53,27 @@
 
 <div class="container mt-5">
     <h2>Your Orders</h2>
+    <div class="card header my-3">All Products</div>
+
     <div class="row">
-        <!-- Order Item -->
+        <% if (products != null && !products.isEmpty()) { %>
+        <% for (Product p : products) { %>
         <div class="col-md-4">
             <div class="card mb-4">
-                <img class="card-img-top" src="path/to/product-image.jpg" alt="Product Image">
+                <!-- Corrected image path -->
+                <img class="card-img-top" src="<%= request.getContextPath() + "/images/" + p.getImage() %>" alt="Product Image">
                 <div class="card-body">
-                    <h5 class="card-title">Product Name</h5>
-                    <p class="card-text">Quantity: 2</p>
-                    <p class="card-text">Price: $20.00</p>
-                    <p class="card-text">Order Date: 2024-08-27</p>
+                    <h5 class="card-title"><%= p.getProductname() %></h5>
+                    <p class="card-text">Price: <%= p.getPrice() %></p>
+                    <p class="card-text">Order Date: <%= p.getOrderDate() %></p>
                     <a href="#" class="btn btn-primary">View Details</a>
                 </div>
             </div>
         </div>
-        <!-- End of Order Item -->
-
-        <!-- Repeat Order Items as needed -->
+        <% } %>
+        <% } else { %>
+        <p>No products found.</p>
+        <% } %>
     </div>
 </div>
 
