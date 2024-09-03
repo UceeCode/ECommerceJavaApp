@@ -52,7 +52,7 @@
 </nav>
 
 <div class="container mt-5">
-    <h2>Your Orders</h2>
+    <h2>WELCOME TO SURULERE MARKET</h2>
     <div class="card header my-3">All Products</div>
 
     <div class="row">
