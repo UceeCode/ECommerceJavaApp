@@ -4,6 +4,7 @@ import com.example.ecommercejava.model.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Userdao {
     private Connection connection;
@@ -28,9 +29,11 @@ public class Userdao {
                     user.setPassword(resultSet.getString("password"));
                 }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            // Handle SQL exception with specific error messages or logging
             e.printStackTrace();
         }
+
         return user;
     }
 }

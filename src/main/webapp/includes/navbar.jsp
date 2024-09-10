@@ -40,9 +40,6 @@
                             <a class="nav-link " href="orders.jsp">Orders</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="LogoutServlet">LogOut</a>
-                        </li>
                 <%} else {%>
 
 

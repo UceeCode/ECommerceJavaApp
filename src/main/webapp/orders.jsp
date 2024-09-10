@@ -4,15 +4,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     // Check user authentication
-    User auth = (User) request.getSession().getAttribute("auth");
-    if (auth != null) {
-        response.sendRedirect("index.jsp");
-        return; // Ensure the rest of the page is not processed if redirected
-    }
+
 
     // Fetch the list of products from request
     List<Product> products = (List<Product>) request.getAttribute("products");
 %>
+<%
+    User user = (User) session.getAttribute("user");
+    if (user == null) {
+        // Redirect to login page if the user is not logged in
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,7 +43,7 @@
                     <a class="nav-link" href="cart.jsp">Cart</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="orders.jsp">Orders</a>
+                <li class="nav-item"><a class="nav-link" href="ProductServlet">Products</a></li>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="login.jsp">Login</a>
@@ -60,13 +65,12 @@
         <% for (Product p : products) { %>
         <div class="col-md-4">
             <div class="card mb-4">
-                <!-- Corrected image path -->
                 <img class="card-img-top" src="<%= request.getContextPath() + "/images/" + p.getImage() %>" alt="Product Image">
                 <div class="card-body">
                     <h5 class="card-title"><%= p.getProductname() %></h5>
                     <p class="card-text">Price: <%= p.getPrice() %></p>
                     <p class="card-text">Order Date: <%= p.getOrderDate() %></p>
-                    <a href="#" class="btn btn-primary">View Details</a>
+                    <a href="CartServlet?id=<%= p.getId() %>" class="btn btn-primary">ADD TO CART</a>
                 </div>
             </div>
         </div>
