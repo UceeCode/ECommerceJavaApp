@@ -29,7 +29,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-        <a class="navbar-brand" href="index.jsp">Surulere Market</a>
+        <a class="navbar-brand" href="index.jsp">TODAY'S MARKET</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -68,7 +68,7 @@
                 <img class="card-img-top" src="<%= request.getContextPath() + "/images/" + p.getImage() %>" alt="Product Image">
                 <div class="card-body">
                     <h5 class="card-title"><%= p.getProductname() %></h5>
-                    <p class="card-text">Price: <%= p.getPrice() %></p>
+                    <p class="card-text">Price: $<%= p.getPrice() %></p>
                     <p class="card-text">Order Date: <%= p.getOrderDate() %></p>
                     <a href="CartServlet?id=<%= p.getId() %>" class="btn btn-primary">ADD TO CART</a>
                 </div>

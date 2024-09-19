@@ -9,7 +9,7 @@ public class Product {
 
     // Getters and Setters
 
-    public int getId() {
+    public int getId() {  // Change boolean to int here
         return id;
     }
 

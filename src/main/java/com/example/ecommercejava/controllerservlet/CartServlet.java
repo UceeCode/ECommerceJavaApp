@@ -26,7 +26,6 @@ public class CartServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
 
-        // Check if user is logged in
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
         if (user == null) {
@@ -34,21 +33,42 @@ public class CartServlet extends HttpServlet {
             return;
         }
 
-        // Retrieve product ID from request parameter
+        String action = req.getParameter("action");
         int id = Integer.parseInt(req.getParameter("id"));
 
-        // Initialize cart list
         ArrayList<Cart> cartList = (ArrayList<Cart>) session.getAttribute("cart_list");
         if (cartList == null) {
             cartList = new ArrayList<>();
         }
 
-        // Fetch product details from database
+        if (action != null && (action.equals("increaseQuantity") || action.equals("decreaseQuantity"))) {
+            updateCartQuantity(cartList, id, action);
+        } else {
+            addProductToCart(cartList, id);
+        }
+
+        session.setAttribute("cart_list", cartList);
+        resp.sendRedirect("cart.jsp");
+    }
+
+    private void updateCartQuantity(ArrayList<Cart> cartList, int id, String action) {
+        for (Cart cartItem : cartList) {
+            if (cartItem.getId() == id) {
+                if (action.equals("increaseQuantity")) {
+                    cartItem.setQuantity(cartItem.getQuantity() + 1);
+                } else if (action.equals("decreaseQuantity") && cartItem.getQuantity() > 1) {
+                    cartItem.setQuantity(cartItem.getQuantity() - 1);
+                }
+                break;
+            }
+        }
+    }
+
+    private void addProductToCart(ArrayList<Cart> cartList, int id) {
         try (Connection connection = DBconnection.getConnection()) {
             Productdao productDao = new Productdao(connection);
             List<Product> products = productDao.getAllProducts();
 
-            // Find the product by ID
             Product product = null;
             for (Product p : products) {
                 if (p.getId() == id) {
@@ -57,11 +77,9 @@ public class CartServlet extends HttpServlet {
                 }
             }
 
-            // If product is found, add to cart
             if (product != null) {
                 boolean productExistsInCart = false;
 
-                // Check if product already exists in cart
                 for (Cart cartItem : cartList) {
                     if (cartItem.getId() == id) {
                         cartItem.setQuantity(cartItem.getQuantity() + 1);
@@ -70,7 +88,6 @@ public class CartServlet extends HttpServlet {
                     }
                 }
 
-                // If product does not exist in cart, add it
                 if (!productExistsInCart) {
                     Cart newCartItem = new Cart();
                     newCartItem.setId(product.getId());
@@ -82,15 +99,8 @@ public class CartServlet extends HttpServlet {
                 }
             }
 
-            // Update session attribute
-            session.setAttribute("cart_list", cartList);
-
-            // Redirect to cart page
-            resp.sendRedirect("cart.jsp");
-
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Database connection error.");
         }
     }
 }
